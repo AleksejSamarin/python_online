@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Python online</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='js/script.js') }}"></script>
+<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">-->
+</head>
+<body>
+    <form method="post" name="form">
+        <textarea name="input_code" rows="10" cols="128">print("hello, world!")
+print(2 + 2)
+value = input()
+#value = 3
+print(f"Your value is: {value}")</textarea>
+        <textarea name="input_stdin" rows="10" cols="20">12345</textarea><p>
+        <input type="button" value="Launch" onclick="launch()"><p>
+    </form>
+    <textarea readonly id="output" rows="10" cols="152" style="white-space: pre-line"></textarea>
+</body>
+</html>

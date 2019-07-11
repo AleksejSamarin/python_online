@@ -1,0 +1,1 @@
+exec("""\nimport sys\nfor banned_import in sys.argv[1].split(','):\n    sys.modules[banned_import] = None\nfor banned_builtin in sys.argv[2].split(','):\n    del __builtins__.__dict__[banned_builtin]\n""");

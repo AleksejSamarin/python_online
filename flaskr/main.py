@@ -1,7 +1,8 @@
-import sys
+import os
 from flask import Flask, json
 from flask import render_template, request
-from io import StringIO
+from subprocess import PIPE, Popen
+from subprocess import TimeoutExpired
 
 
 app = Flask(__name__)
@@ -14,24 +15,36 @@ def index():
 
 @app.route('/launch', methods=['POST'])
 def launch():
-    code = request.form['input_code']
+    code = injection + request.form['input_code']
     stdin = request.form['input_stdin']
+    args = ['python', '-c', code, ",".join(banned_imports), ",".join(banned_builtins)]
 
-    old_stdin = None
-    if code:
-        old_stdout = sys.stdout
-        if stdin:
-            old_stdin = sys.stdin
-            sys.stdin = StringIO(stdin)
-        redirected_output = sys.stdout = StringIO()
-        exec(code)
-        sys.stdout = old_stdout
-        if stdin:
-            sys.stdin = old_stdin
+    process = Popen(args, **process_config)
+    try:
+        stdout, stderr = process.communicate(stdin, timeout)
+    except TimeoutExpired:
+        return json.dumps({'output': 'Timeout'})
 
-        # print(code, stdin)
-        return json.dumps({'output': redirected_output.getvalue()})
+    return json.dumps({'output': str(stdout) + str(stderr)})
+
+
+def get_data_from_file(name):
+    with open(os.path.join(path, f"./resources/{name}"), 'r') as file:
+        return file.read()
 
 
 if __name__ == '__main__':
+    process_config = {
+        'stdin': PIPE,
+        'stdout': PIPE,
+        'stderr': PIPE,
+        'encoding': 'utf-8'
+    }
+    path = os.path.dirname(os.path.abspath(__file__))
+    timeout = 5.0
+
+    banned_imports = ['os']
+    banned_builtins = ['open', 'exec', 'eval']
+    injection = get_data_from_file('injection.txt')
+
     app.run(debug=True)

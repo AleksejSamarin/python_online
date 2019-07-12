@@ -47,4 +47,4 @@ if __name__ == '__main__':
     banned_builtins = ['open', 'exec', 'eval']
     injection = get_data_from_file('injection.txt')
 
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

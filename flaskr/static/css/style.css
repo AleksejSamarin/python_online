@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body {
+    height: 100%;
+    background-color: #444444;
+}
+
+#panels {
+    height: 100%;
+    width: 100%;
+}
+
+#panels > div {
+    float: left;
+    padding: 1px;
+}
+
+.code {
+    width: 85%;
+    height: 60%;
+}
+
+.stdin {
+    width: 15%;
+    height: 45%;
+}
+
+.control {
+    width: 15%;
+    height: 15%;
+}
+
+.output {
+    width: 100%;
+    height: 40%;
+}
+
+input[type=button] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    width: 100%;
+    height: 100%;
+}
+
+textarea {
+    background-color: #000;
+    border: 0px solid #000;
+    color: #ffffff;
+    padding: 8px;
+    font-family: courier new;
+    resize: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    height: 100%;
+}

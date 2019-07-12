@@ -15,7 +15,7 @@ def index():
 
 @app.route('/launch', methods=['POST'])
 def launch():
-    code = injection + request.form['input_code']
+    code = injection + '\n' + request.form['input_code']
     stdin = request.form['input_stdin']
     args = ['python', '-c', code, ",".join(banned_imports), ",".join(banned_builtins)]
 

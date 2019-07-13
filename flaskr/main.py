@@ -1,3 +1,4 @@
+import configparser
 import os
 from flask import Flask, json
 from flask import render_template, request
@@ -34,15 +35,16 @@ def get_data_from_file(name):
 
 
 if __name__ == '__main__':
+    path = os.path.dirname(os.path.abspath(__file__))
+    config = configparser.ConfigParser()
+    config.read(os.path.join(path, './resources/config.ini'))
     process_config = {
         'stdin': PIPE,
         'stdout': PIPE,
         'stderr': PIPE,
-        'encoding': 'utf-8'
+        'encoding': config['process']['encoding']
     }
-    path = os.path.dirname(os.path.abspath(__file__))
-    timeout = 5.0
-
+    timeout = float(config['process']['timeout'])
     banned_imports = ['os']
     banned_builtins = ['open', 'exec', 'eval']
     injection = get_data_from_file('injection.txt')

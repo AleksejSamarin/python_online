@@ -11,21 +11,17 @@
     <form id="panels" name="form" method="post">
         <div class="code">
             <textarea spellcheck="false" name="input_code">#import os
-from time import sleep
-print("hello, world!")
-#for i in range(2):
-# print(i)
-# sleep(1)
-value = input()
-#value = 3
-print(f"Your value is: {value}")
-#print(os.name)
-code = "(lambda x: x).__globals__['__builtins__']['open'].__doc__[:100]"
-print(eval(code, {}, {}))
+
+input_value = input()
+
+for i in range(2):
+ print(f"Your value is: {input_value}")
+
+exec("print('Hello, world!')")
 </textarea>
         </div>
         <div class="stdin">
-            <textarea spellcheck="false" name="input_stdin">12345</textarea>
+            <textarea spellcheck="false" name="input_stdin">123</textarea>
         </div>
         <div class="control">
             <input type="button" value="Launch" onclick="launch()">

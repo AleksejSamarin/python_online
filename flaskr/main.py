@@ -16,9 +16,9 @@ def index():
 
 @app.route('/launch', methods=['POST'])
 def launch():
-    code = injection + '\n' + request.form['input_code']
+    code = injection + request.form['input_code']
     stdin = request.form['input_stdin']
-    args = ['python', '-c', code, ",".join(banned_imports), ",".join(banned_builtins)]
+    args = ['python', '-c', code, ",".join(banned_imports), ",".join(banned_functions)]
 
     process = Popen(args, **process_config)
     try:
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     }
     timeout = float(config['process']['timeout'])
     banned_imports = ['os']
-    banned_builtins = ['open', 'exec', 'eval']
+    banned_functions = ['open', 'exec', 'eval']
     injection = get_data_from_file('injection.txt')
 
     app.run(host='0.0.0.0', debug=True)

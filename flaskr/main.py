@@ -18,11 +18,11 @@ def index():
 def launch():
     code = injection + request.form['input_code']
     stdin = request.form['input_stdin']
-    args = ['python', '-c', code, ",".join(banned_imports), ",".join(banned_functions)]
+    args = ['python', '-c', code, config['banned']['imports'], config['banned']['functions']]
 
     process = Popen(args, **process_config)
     try:
-        stdout, stderr = process.communicate(stdin, timeout)
+        stdout, stderr = process.communicate(stdin, float(config['process']['timeout']))
     except TimeoutExpired:
         return json.dumps({'output': 'Timeout'})
 
@@ -38,15 +38,11 @@ if __name__ == '__main__':
     path = os.path.dirname(os.path.abspath(__file__))
     config = configparser.ConfigParser()
     config.read(os.path.join(path, './resources/config.ini'))
+    injection = get_data_from_file(config['server']['injection'])
     process_config = {
         'stdin': PIPE,
         'stdout': PIPE,
         'stderr': PIPE,
         'encoding': config['process']['encoding']
     }
-    timeout = float(config['process']['timeout'])
-    banned_imports = ['os']
-    banned_functions = ['open', 'exec', 'eval']
-    injection = get_data_from_file('injection.txt')
-
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host=config['server']['address'])

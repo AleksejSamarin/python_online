@@ -7,10 +7,6 @@ function launch() {
         success: function(response) {
             var json = jQuery.parseJSON(response)
             $('#output').html(json.output)
-            console.log(response);
-        },
-        error: function(error) {
-            console.log(error);
         }
     });
 }
